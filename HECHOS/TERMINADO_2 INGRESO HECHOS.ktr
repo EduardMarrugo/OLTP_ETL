@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 <?xml version="1.0" encoding="UTF-8"?>
+=======
+<?xml version="1.0" encoding="UTF-8"?>
+>>>>>>> d9eb951440248a07059c68b52715edc3b2688d18
 <transformation>
   <info>
     <name>iteracionesHechos</name>
