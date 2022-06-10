@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <transformation>
   <info>
-    <name>TRABAJADORES HECHOS</name>
+    <name>SPRINT</name>
     <description/>
     <extended_description/>
     <trans_version/>
@@ -436,6 +436,57 @@
   <notepads>
   </notepads>
   <connection>
+    <name>data warehouse</name>
+    <server>unimag-projects-database.postgres.database.azure.com</server>
+    <type>POSTGRESQL</type>
+    <access>Native</access>
+    <database>datawarehouse</database>
+    <port>5432</port>
+    <username>dbadmin</username>
+    <password>Encrypted 2be98afc81fc99b89aa1efc208cc0e491</password>
+    <servername/>
+    <data_tablespace/>
+    <index_tablespace/>
+    <attributes>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_LOWERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>FORCE_IDENTIFIERS_TO_UPPERCASE</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>IS_CLUSTERED</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>PORT_NUMBER</code>
+        <attribute>5432</attribute>
+      </attribute>
+      <attribute>
+        <code>PRESERVE_RESERVED_WORD_CASE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>QUOTE_ALL_FIELDS</code>
+        <attribute>N</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_BOOLEAN_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>SUPPORTS_TIMESTAMP_DATA_TYPE</code>
+        <attribute>Y</attribute>
+      </attribute>
+      <attribute>
+        <code>USE_POOLING</code>
+        <attribute>N</attribute>
+      </attribute>
+    </attributes>
+  </connection>
+  <connection>
     <name>OLTPGrupo1</name>
     <server>unimag-projects-database.postgres.database.azure.com</server>
     <type>POSTGRESQL</type>
@@ -590,129 +641,169 @@
   </connection>
   <order>
     <hop>
-      <from>OLTP1 EquiposProyecto</from>
-      <to>Unión por clave</to>
+      <from>Grupo1_TAREAS_SPRINT</from>
+      <to>Sort rows 2</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>OLTP1 Equipo</from>
-      <to>Unión por clave</to>
+      <from>Grupo1_SPRINT</from>
+      <to>Sort rows</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Unión por clave</from>
-      <to>Ordenar filas</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Ordenar filas</from>
-      <to>Unión por clave 2</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>OLTP1 proyecto</from>
-      <to>Unión por clave 2</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Unión por clave 2</from>
-      <to>Ordenar filas 2</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>OLTP1 Trabajador</from>
-      <to>Unión por clave 3</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Ordenar filas 2</from>
-      <to>Unión por clave 3</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Unión por clave 3</from>
-      <to>Selecciona/Renombra valores</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>OLTP2  proyecto</from>
+      <from>Sort rows</from>
       <to>Merge join</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>OLTP2  sprint </from>
+      <from>Sort rows 2</from>
       <to>Merge join</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
       <from>Merge join</from>
-      <to>Sort rows</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>OLTP2  historia</from>
-      <to>Merge join 2</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Sort rows</from>
-      <to>Merge join 2</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Merge join 2</from>
-      <to>Sort rows 2</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>OLTP2  developmentteam</from>
-      <to>Merge join 3</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Sort rows 2</from>
-      <to>Merge join 3</to>
-      <enabled>Y</enabled>
-    </hop>
-    <hop>
-      <from>Merge join 3</from>
       <to>Select values</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>OLTP3  proyecto</from>
-      <to>Merge join 4</to>
+      <from>Grupo2 sprint</from>
+      <to>Unión por clave</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>OLTP3  equipo</from>
-      <to>Merge join 4</to>
+      <from>Grupo2 historias</from>
+      <to>Unión por clave</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Merge join 4</from>
-      <to>Sort rows 3</to>
+      <from>Unión por clave</from>
+      <to>Selecciona/Renombra valores</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Sort rows 3</from>
-      <to>Merge join 5</to>
+      <from>Selecciona/Renombra valores</from>
+      <to>Mapeo de valores</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>OLTP3 miembros</from>
-      <to>Merge join 5</to>
+      <from>Mapeo de valores</from>
+      <to>Fórmula</to>
       <enabled>Y</enabled>
     </hop>
     <hop>
-      <from>Merge join 5</from>
-      <to>Select values 2</to>
+      <from>Fórmula</from>
+      <to>Mapeo de valores 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Grupo3 historias</from>
+      <to>Unión por clave 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Grupo3 sprint</from>
+      <to>Unión por clave 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Grupo3 problemas</from>
+      <to>Unión por clave 3</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Unión por clave 2</from>
+      <to>Unión por clave 3</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Mapeo de valores 2</from>
+      <to>Añadir constantes</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Añadir constantes</from>
+      <to>Selecciona/Renombra valores 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Unión por clave 3</from>
+      <to>Añadir constantes 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Añadir constantes 2</from>
+      <to>Selecciona/Renombra valores 3</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Selecciona/Renombra valores 3</from>
+      <to>Strings cut</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Búsqueda/actualización en combinación</from>
+      <to>Block this step until steps finish</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Block this step until steps finish</from>
+      <to>Actualizar</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Añadir constantes 3</from>
+      <to>Calculadora</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Select values</from>
+      <to>Añadir constantes 3</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Añadir constantes 3 2</from>
+      <to>Calculadora 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Selecciona/Renombra valores 2</from>
+      <to>Añadir constantes 3 2</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Añadir constantes 3 3</from>
+      <to>Calculadora 3</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Strings cut</from>
+      <to>Añadir constantes 3 3</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Calculadora 3</from>
+      <to>Transformación simulada (no hace nada)</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Calculadora 2</from>
+      <to>Transformación simulada (no hace nada)</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Calculadora</from>
+      <to>Transformación simulada (no hace nada)</to>
+      <enabled>Y</enabled>
+    </hop>
+    <hop>
+      <from>Transformación simulada (no hace nada)</from>
+      <to>Búsqueda/actualización en combinación</to>
       <enabled>Y</enabled>
     </hop>
   </order>
   <step>
-    <name>Merge join</name>
-    <type>MergeJoin</type>
+    <name>Actualizar</name>
+    <type>Update</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -721,15 +812,58 @@
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <join_type>LEFT OUTER</join_type>
-    <step1>OLTP2  proyecto</step1>
-    <step2>OLTP2  sprint </step2>
-    <keys_1>
-      <key>id</key>
-    </keys_1>
-    <keys_2>
-      <key>proyecto_id</key>
-    </keys_2>
+    <connection>data warehouse</connection>
+    <skip_lookup>N</skip_lookup>
+    <commit>100</commit>
+    <use_batch>N</use_batch>
+    <error_ignored>N</error_ignored>
+    <ignore_flag_field/>
+    <lookup>
+      <schema>public</schema>
+      <table>sprint</table>
+      <key>
+        <name>sprint_key</name>
+        <field>sprint_key</field>
+        <condition>=</condition>
+        <name2/>
+      </key>
+      <value>
+        <name>tarea_id</name>
+        <rename>tarea_id</rename>
+      </value>
+      <value>
+        <name>nombre_tarea</name>
+        <rename>nombre_tarea</rename>
+      </value>
+      <value>
+        <name>descripcion_tarea</name>
+        <rename>descripcion_tarea</rename>
+      </value>
+      <value>
+        <name>problemas_tarea</name>
+        <rename>problemas_tarea</rename>
+      </value>
+      <value>
+        <name>estado_tarea</name>
+        <rename>estado_tarea</rename>
+      </value>
+      <value>
+        <name>dificultad_tarea</name>
+        <rename>dificultad_tarea</rename>
+      </value>
+      <value>
+        <name>descripcion_sprint</name>
+        <rename>descripcion_sprint</rename>
+      </value>
+      <value>
+        <name>estado_sprint</name>
+        <rename>estado_sprint</rename>
+      </value>
+      <value>
+        <name>sprint_id</name>
+        <rename>sprint_id</rename>
+      </value>
+    </lookup>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -739,13 +873,242 @@
       </output>
     </remotesteps>
     <GUI>
-      <xloc>160</xloc>
-      <yloc>704</yloc>
+      <xloc>1152</xloc>
+      <yloc>80</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>OLTP1 Equipo</name>
+    <name>Añadir constantes</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>nombre_tarea</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>problemas_tarea</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>528</xloc>
+      <yloc>416</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Añadir constantes 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>estado_tarea</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>dificultad_tarea</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+      <field>
+        <name>estado_sprint</name>
+        <type>String</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif/>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>448</xloc>
+      <yloc>640</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Block this step until steps finish</name>
+    <type>BlockUntilStepsFinish</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <steps>
+      <step>
+        <name>Búsqueda/actualización en combinación</name>
+        <CopyNr>0</CopyNr>
+      </step>
+    </steps>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1152</xloc>
+      <yloc>176</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Búsqueda/actualización en combinación</name>
+    <type>CombinationLookup</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <schema>public</schema>
+    <table>sprint</table>
+    <connection>data warehouse</connection>
+    <commit>100</commit>
+    <cache_size>9999</cache_size>
+    <replace>N</replace>
+    <preloadCache>N</preloadCache>
+    <crc>N</crc>
+    <crcfield>hashcode</crcfield>
+    <fields>
+      <key>
+        <name>sprint_id</name>
+        <lookup>sprint_id</lookup>
+      </key>
+      <key>
+        <name>tarea_id</name>
+        <lookup>tarea_id</lookup>
+      </key>
+      <return>
+        <name>sprint_key</name>
+        <creation_method>tablemax</creation_method>
+        <use_autoinc>N</use_autoinc>
+      </return>
+    </fields>
+    <sequence/>
+    <last_update_field>modificacion</last_update_field>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1152</xloc>
+      <yloc>272</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Fórmula</name>
+    <type>Formula</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <formula>
+      <field_name>dificultad_tareaa</field_name>
+      <formula_string>[dificultad_tarea]/2</formula_string>
+      <value_type>Integer</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <replace_field/>
+    </formula>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>320</xloc>
+      <yloc>480</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Grupo1_SPRINT</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -757,11 +1120,14 @@
     </partitioning>
     <connection>OLTPGrupo1</connection>
     <sql>SELECT
-  idequipo
-, nombreequipo
-, areaequipo
-, fechacreacionequipo
-FROM scrum.equipo
+  idsprint
+, idequipo
+, idbacklog
+, descripcion
+, estado
+, fechainicio
+, fechafin
+FROM scrum.sprint
 </sql>
     <limit>0</limit>
     <lookup/>
@@ -773,11 +1139,57 @@ FROM scrum.equipo
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
+        <name>idsprint</name>
+        <length>9</length>
+        <precision>0</precision>
+        <origin>data_PRODUCTOWNER</origin>
+        <comments>idsprint</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>es_CO</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
         <name>idequipo</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>OLTP1 Equipo</origin>
+        <origin>data_PRODUCTOWNER</origin>
         <comments>idequipo</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>es_CO</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>idbacklog</name>
+        <length>9</length>
+        <precision>0</precision>
+        <origin>data_PRODUCTOWNER</origin>
+        <comments>idbacklog</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -796,11 +1208,11 @@ FROM scrum.equipo
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>nombreequipo</name>
-        <length>15</length>
+        <name>descripcion</name>
+        <length>140</length>
         <precision>-1</precision>
-        <origin>OLTP1 Equipo</origin>
-        <comments>nombreequipo</comments>
+        <origin>data_PRODUCTOWNER</origin>
+        <comments>descripcion</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -819,11 +1231,11 @@ FROM scrum.equipo
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>areaequipo</name>
-        <length>20</length>
+        <name>estado</name>
+        <length>15</length>
         <precision>-1</precision>
-        <origin>OLTP1 Equipo</origin>
-        <comments>areaequipo</comments>
+        <origin>data_PRODUCTOWNER</origin>
+        <comments>estado</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -842,11 +1254,34 @@ FROM scrum.equipo
       <value-meta>
         <type>Date</type>
         <storagetype>normal</storagetype>
-        <name>fechacreacionequipo</name>
+        <name>fechainicio</name>
         <length>-1</length>
         <precision>-1</precision>
-        <origin>OLTP1 Equipo</origin>
-        <comments>fechacreacionequipo</comments>
+        <origin>data_PRODUCTOWNER</origin>
+        <comments>fechainicio</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>es_CO</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Date</type>
+        <storagetype>normal</storagetype>
+        <name>fechafin</name>
+        <length>-1</length>
+        <precision>-1</precision>
+        <origin>data_PRODUCTOWNER</origin>
+        <comments>fechafin</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -873,12 +1308,12 @@ FROM scrum.equipo
     </remotesteps>
     <GUI>
       <xloc>64</xloc>
-      <yloc>576</yloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>OLTP1 EquiposProyecto</name>
+    <name>Grupo1_TAREAS_SPRINT</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -889,8 +1324,21 @@ FROM scrum.equipo
       <schema_name/>
     </partitioning>
     <connection>OLTPGrupo1</connection>
-    <sql>SELECT *
-FROM scrum.equipoproyecto
+    <sql>SELECT
+  idtareasprint
+, idsprint
+, idtrabajador
+, nombrets
+, descripcionts
+, estadots
+, horasts
+, fechainiciots
+, fechaestimadafin
+, fecharealfin
+, niveldificultadts
+, observacionests
+, problemasencontrados
+FROM scrum.tareassprint
 </sql>
     <limit>0</limit>
     <lookup/>
@@ -902,11 +1350,11 @@ FROM scrum.equipoproyecto
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>idequipo</name>
+        <name>idtareasprint</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>OLTP EquiposProyecto</origin>
-        <comments>idequipo</comments>
+        <origin>Grupo1_SPRINT 2</origin>
+        <comments>idtareasprint</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -925,11 +1373,11 @@ FROM scrum.equipoproyecto
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>idproyecto</name>
+        <name>idsprint</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>OLTP EquiposProyecto</origin>
-        <comments>idproyecto</comments>
+        <origin>Grupo1_SPRINT 2</origin>
+        <comments>idsprint</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -945,50 +1393,13 @@ FROM scrum.equipoproyecto
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
-    </row-meta>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>64</xloc>
-      <yloc>496</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>OLTP1 Trabajador</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>OLTPGrupo1</connection>
-    <sql>SELECT *
-FROM scrum.trabajador
-</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta>
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
         <name>idtrabajador</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>OLTP1 Trabajador</origin>
+        <origin>Grupo1_SPRINT 2</origin>
         <comments>idtrabajador</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
@@ -1006,128 +1417,105 @@ FROM scrum.trabajador
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>idequipo</name>
-        <length>9</length>
-        <precision>0</precision>
-        <origin>OLTP1 Trabajador</origin>
-        <comments>idequipo</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>nombretrab</name>
-        <length>15</length>
-        <precision>-1</precision>
-        <origin>OLTP1 Trabajador</origin>
-        <comments>nombretrab</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>apellidotrab</name>
-        <length>15</length>
-        <precision>-1</precision>
-        <origin>OLTP1 Trabajador</origin>
-        <comments>apellidotrab</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>correotrab</name>
-        <length>50</length>
-        <precision>-1</precision>
-        <origin>OLTP1 Trabajador</origin>
-        <comments>correotrab</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>telefonotrab</name>
-        <length>10</length>
-        <precision>-1</precision>
-        <origin>OLTP1 Trabajador</origin>
-        <comments>telefonotrab</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>especialidadtrab</name>
+        <name>nombrets</name>
         <length>20</length>
         <precision>-1</precision>
-        <origin>OLTP1 Trabajador</origin>
-        <comments>especialidadtrab</comments>
+        <origin>Grupo1_SPRINT 2</origin>
+        <comments>nombrets</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>es_CO</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>descripcionts</name>
+        <length>280</length>
+        <precision>-1</precision>
+        <origin>Grupo1_SPRINT 2</origin>
+        <comments>descripcionts</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>es_CO</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>estadots</name>
+        <length>15</length>
+        <precision>-1</precision>
+        <origin>Grupo1_SPRINT 2</origin>
+        <comments>estadots</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>es_CO</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>horasts</name>
+        <length>9</length>
+        <precision>0</precision>
+        <origin>Grupo1_SPRINT 2</origin>
+        <comments>horasts</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>es_CO</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Date</type>
+        <storagetype>normal</storagetype>
+        <name>fechainiciots</name>
+        <length>-1</length>
+        <precision>-1</precision>
+        <origin>Grupo1_SPRINT 2</origin>
+        <comments>fechainiciots</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -1146,11 +1534,103 @@ FROM scrum.trabajador
       <value-meta>
         <type>Date</type>
         <storagetype>normal</storagetype>
-        <name>fechacontratacion</name>
+        <name>fechaestimadafin</name>
         <length>-1</length>
         <precision>-1</precision>
-        <origin>OLTP1 Trabajador</origin>
-        <comments>fechacontratacion</comments>
+        <origin>Grupo1_SPRINT 2</origin>
+        <comments>fechaestimadafin</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>es_CO</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Date</type>
+        <storagetype>normal</storagetype>
+        <name>fecharealfin</name>
+        <length>-1</length>
+        <precision>-1</precision>
+        <origin>Grupo1_SPRINT 2</origin>
+        <comments>fecharealfin</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>es_CO</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>niveldificultadts</name>
+        <length>10</length>
+        <precision>-1</precision>
+        <origin>Grupo1_SPRINT 2</origin>
+        <comments>niveldificultadts</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>es_CO</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>observacionests</name>
+        <length>100</length>
+        <precision>-1</precision>
+        <origin>Grupo1_SPRINT 2</origin>
+        <comments>observacionests</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>es_CO</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>problemasencontrados</name>
+        <length>140</length>
+        <precision>-1</precision>
+        <origin>Grupo1_SPRINT 2</origin>
+        <comments>problemasencontrados</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -1177,511 +1657,12 @@ FROM scrum.trabajador
     </remotesteps>
     <GUI>
       <xloc>64</xloc>
-      <yloc>336</yloc>
+      <yloc>176</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>OLTP1 proyecto</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>OLTPGrupo1</connection>
-    <sql>SELECT *
-FROM scrum.proyecto
-</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>idproyecto</name>
-        <length>9</length>
-        <precision>0</precision>
-        <origin>OLTP proyecto</origin>
-        <comments>idproyecto</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>idproductowner</name>
-        <length>9</length>
-        <precision>0</precision>
-        <origin>OLTP proyecto</origin>
-        <comments>idproductowner</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>nombreproy</name>
-        <length>80</length>
-        <precision>-1</precision>
-        <origin>OLTP proyecto</origin>
-        <comments>nombreproy</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>duracionestimadaproy</name>
-        <length>-1</length>
-        <precision>-1</precision>
-        <origin>OLTP proyecto</origin>
-        <comments>duracionestimadaproy</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>presupuestoproy</name>
-        <length>9</length>
-        <precision>0</precision>
-        <origin>OLTP proyecto</origin>
-        <comments>presupuestoproy</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Date</type>
-        <storagetype>normal</storagetype>
-        <name>fechainicioproy</name>
-        <length>-1</length>
-        <precision>-1</precision>
-        <origin>OLTP proyecto</origin>
-        <comments>fechainicioproy</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Date</type>
-        <storagetype>normal</storagetype>
-        <name>fechafinproy</name>
-        <length>-1</length>
-        <precision>-1</precision>
-        <origin>OLTP proyecto</origin>
-        <comments>fechafinproy</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-    </row-meta>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>64</xloc>
-      <yloc>416</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>OLTP2  developmentteam</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>OLTPGrupo2</connection>
-    <sql>SELECT
-  id
-, cedula
-, nombre
-, apellido
-, edad
-, genero
-, correo
-, ciudad
-, direccion
-, departamento
-, codigo_postal
-FROM "public".developmentteam
-</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>id</name>
-        <length>9</length>
-        <precision>0</precision>
-        <origin>OLTP2  historia 2</origin>
-        <comments>id</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>cedula</name>
-        <length>50</length>
-        <precision>-1</precision>
-        <origin>OLTP2  historia 2</origin>
-        <comments>cedula</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>nombre</name>
-        <length>50</length>
-        <precision>-1</precision>
-        <origin>OLTP2  historia 2</origin>
-        <comments>nombre</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>apellido</name>
-        <length>50</length>
-        <precision>-1</precision>
-        <origin>OLTP2  historia 2</origin>
-        <comments>apellido</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>edad</name>
-        <length>9</length>
-        <precision>0</precision>
-        <origin>OLTP2  historia 2</origin>
-        <comments>edad</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>genero</name>
-        <length>50</length>
-        <precision>-1</precision>
-        <origin>OLTP2  historia 2</origin>
-        <comments>genero</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>correo</name>
-        <length>50</length>
-        <precision>-1</precision>
-        <origin>OLTP2  historia 2</origin>
-        <comments>correo</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>ciudad</name>
-        <length>50</length>
-        <precision>-1</precision>
-        <origin>OLTP2  historia 2</origin>
-        <comments>ciudad</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>direccion</name>
-        <length>50</length>
-        <precision>-1</precision>
-        <origin>OLTP2  historia 2</origin>
-        <comments>direccion</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>departamento</name>
-        <length>50</length>
-        <precision>-1</precision>
-        <origin>OLTP2  historia 2</origin>
-        <comments>departamento</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>codigo_postal</name>
-        <length>50</length>
-        <precision>-1</precision>
-        <origin>OLTP2  historia 2</origin>
-        <comments>codigo_postal</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-    </row-meta>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>64</xloc>
-      <yloc>912</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>OLTP2  historia</name>
+    <name>Grupo2 historias</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1716,7 +1697,7 @@ FROM "public".historias
         <name>id</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>OLTP2  proyecto 3</origin>
+        <origin>Grupo2 2</origin>
         <comments>id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
@@ -1729,7 +1710,7 @@ FROM "public".historias
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -1739,7 +1720,7 @@ FROM "public".historias
         <name>id_sprint</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>OLTP2  proyecto 3</origin>
+        <origin>Grupo2 2</origin>
         <comments>id_sprint</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
@@ -1752,7 +1733,7 @@ FROM "public".historias
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -1762,7 +1743,7 @@ FROM "public".historias
         <name>nombre</name>
         <length>255</length>
         <precision>-1</precision>
-        <origin>OLTP2  proyecto 3</origin>
+        <origin>Grupo2 2</origin>
         <comments>nombre</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
@@ -1775,7 +1756,7 @@ FROM "public".historias
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -1785,7 +1766,7 @@ FROM "public".historias
         <name>responsable</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>OLTP2  proyecto 3</origin>
+        <origin>Grupo2 2</origin>
         <comments>responsable</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
@@ -1798,7 +1779,7 @@ FROM "public".historias
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -1808,7 +1789,7 @@ FROM "public".historias
         <name>cumple_caso_de_prueba</name>
         <length>-1</length>
         <precision>-1</precision>
-        <origin>OLTP2  proyecto 3</origin>
+        <origin>Grupo2 2</origin>
         <comments>cumple_caso_de_prueba</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
@@ -1821,7 +1802,7 @@ FROM "public".historias
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -1831,7 +1812,7 @@ FROM "public".historias
         <name>estado</name>
         <length>-1</length>
         <precision>-1</precision>
-        <origin>OLTP2  proyecto 3</origin>
+        <origin>Grupo2 2</origin>
         <comments>estado</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
@@ -1844,7 +1825,7 @@ FROM "public".historias
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -1854,7 +1835,7 @@ FROM "public".historias
         <name>horas_invertidas</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>OLTP2  proyecto 3</origin>
+        <origin>Grupo2 2</origin>
         <comments>horas_invertidas</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
@@ -1867,7 +1848,7 @@ FROM "public".historias
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -1877,7 +1858,7 @@ FROM "public".historias
         <name>dificultad</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>OLTP2  proyecto 3</origin>
+        <origin>Grupo2 2</origin>
         <comments>dificultad</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
@@ -1890,7 +1871,7 @@ FROM "public".historias
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -1905,58 +1886,12 @@ FROM "public".historias
     </remotesteps>
     <GUI>
       <xloc>64</xloc>
-      <yloc>816</yloc>
+      <yloc>400</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>OLTP2  proyecto</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>OLTPGrupo2</connection>
-    <sql>SELECT
-  id
-, productowner_id
-, scrummaster_id
-, tecnologia
-, proyecto
-, skateholder
-, costo
-, tipo
-, fecha_inicio
-, fecha_final
-FROM "public".proyectos
-</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta/>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>64</xloc>
-      <yloc>672</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>OLTP2  sprint </name>
+    <name>Grupo2 sprint</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -1990,7 +1925,7 @@ FROM "public".sprint
         <name>id</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>OLTP2  proyecto 2</origin>
+        <origin>Grupo2</origin>
         <comments>id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
@@ -2003,7 +1938,7 @@ FROM "public".sprint
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -2013,7 +1948,7 @@ FROM "public".sprint
         <name>proyecto_id</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>OLTP2  proyecto 2</origin>
+        <origin>Grupo2</origin>
         <comments>proyecto_id</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
@@ -2026,7 +1961,7 @@ FROM "public".sprint
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -2036,7 +1971,7 @@ FROM "public".sprint
         <name>numero_sprint</name>
         <length>50</length>
         <precision>-1</precision>
-        <origin>OLTP2  proyecto 2</origin>
+        <origin>Grupo2</origin>
         <comments>numero_sprint</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
@@ -2049,7 +1984,7 @@ FROM "public".sprint
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -2059,7 +1994,7 @@ FROM "public".sprint
         <name>estado</name>
         <length>-1</length>
         <precision>-1</precision>
-        <origin>OLTP2  proyecto 2</origin>
+        <origin>Grupo2</origin>
         <comments>estado</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
@@ -2072,7 +2007,7 @@ FROM "public".sprint
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -2082,7 +2017,7 @@ FROM "public".sprint
         <name>responsable</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>OLTP2  proyecto 2</origin>
+        <origin>Grupo2</origin>
         <comments>responsable</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
@@ -2095,7 +2030,7 @@ FROM "public".sprint
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -2105,7 +2040,7 @@ FROM "public".sprint
         <name>fecha_inicial</name>
         <length>-1</length>
         <precision>-1</precision>
-        <origin>OLTP2  proyecto 2</origin>
+        <origin>Grupo2</origin>
         <comments>fecha_inicial</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
@@ -2118,7 +2053,7 @@ FROM "public".sprint
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -2128,7 +2063,7 @@ FROM "public".sprint
         <name>fecha_final</name>
         <length>-1</length>
         <precision>-1</precision>
-        <origin>OLTP2  proyecto 2</origin>
+        <origin>Grupo2</origin>
         <comments>fecha_final</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
@@ -2141,7 +2076,7 @@ FROM "public".sprint
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -2156,12 +2091,12 @@ FROM "public".sprint
     </remotesteps>
     <GUI>
       <xloc>64</xloc>
-      <yloc>752</yloc>
+      <yloc>288</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>OLTP3  equipo</name>
+    <name>Grupo3 historias</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -2173,7 +2108,7 @@ FROM "public".sprint
     </partitioning>
     <connection>OLTPGrupo3</connection>
     <sql>SELECT *
-FROM "OLTP".equipos
+FROM "OLTP".historias
 </sql>
     <limit>0</limit>
     <lookup/>
@@ -2185,11 +2120,11 @@ FROM "OLTP".equipos
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>idequipo</name>
+        <name>idhistoria</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>OLTP3  equipo</origin>
-        <comments>idequipo</comments>
+        <origin>Grupo2 sprint 2 2</origin>
+        <comments>idhistoria</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -2201,113 +2136,7 @@ FROM "OLTP".equipos
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>nombreequipo</name>
-        <length>2147483647</length>
-        <precision>-1</precision>
-        <origin>OLTP3  equipo</origin>
-        <comments>nombreequipo</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>areatrabajo</name>
-        <length>2147483647</length>
-        <precision>-1</precision>
-        <origin>OLTP3  equipo</origin>
-        <comments>areatrabajo</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-    </row-meta>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>64</xloc>
-      <yloc>1104</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>OLTP3  proyecto</name>
-    <type>TableInput</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <connection>OLTPGrupo3</connection>
-    <sql>SELECT *
-FROM "OLTP".proyectos
-</sql>
-    <limit>0</limit>
-    <lookup/>
-    <execute_each_row>N</execute_each_row>
-    <variables_active>N</variables_active>
-    <lazy_conversion_active>N</lazy_conversion_active>
-    <cached_row_meta_active>N</cached_row_meta_active>
-    <row-meta>
-      <value-meta>
-        <type>Integer</type>
-        <storagetype>normal</storagetype>
-        <name>idproyecto</name>
-        <length>9</length>
-        <precision>0</precision>
-        <origin>OLTP3  equipo 2</origin>
-        <comments>idproyecto</comments>
-        <conversion_Mask>####0;-####0</conversion_Mask>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -2317,7 +2146,7 @@ FROM "OLTP".proyectos
         <name>nombre</name>
         <length>2147483647</length>
         <precision>-1</precision>
-        <origin>OLTP3  equipo 2</origin>
+        <origin>Grupo2 sprint 2 2</origin>
         <comments>nombre</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
@@ -2330,7 +2159,7 @@ FROM "OLTP".proyectos
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -2340,7 +2169,7 @@ FROM "OLTP".proyectos
         <name>descripcion</name>
         <length>200</length>
         <precision>-1</precision>
-        <origin>OLTP3  equipo 2</origin>
+        <origin>Grupo2 sprint 2 2</origin>
         <comments>descripcion</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
@@ -2353,19 +2182,19 @@ FROM "OLTP".proyectos
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
-        <type>String</type>
+        <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>tipoproyecto</name>
-        <length>2147483647</length>
-        <precision>-1</precision>
-        <origin>OLTP3  equipo 2</origin>
-        <comments>tipoproyecto</comments>
-        <conversion_Mask/>
+        <name>puntaje</name>
+        <length>9</length>
+        <precision>0</precision>
+        <origin>Grupo2 sprint 2 2</origin>
+        <comments>puntaje</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
         <currency_symbol/>
@@ -2376,41 +2205,18 @@ FROM "OLTP".proyectos
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>Date</type>
-        <storagetype>normal</storagetype>
-        <name>fechaentrega</name>
-        <length>-1</length>
-        <precision>-1</precision>
-        <origin>OLTP3  equipo 2</origin>
-        <comments>fechaentrega</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
         <type>Number</type>
         <storagetype>normal</storagetype>
-        <name>costo</name>
+        <name>horas</name>
         <length>8</length>
         <precision>8</precision>
-        <origin>OLTP3  equipo 2</origin>
-        <comments>costo</comments>
+        <origin>Grupo2 sprint 2 2</origin>
+        <comments>horas</comments>
         <conversion_Mask>####0.0#########;-####0.0#########</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -2422,18 +2228,18 @@ FROM "OLTP".proyectos
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>idowner</name>
+        <name>idsprint</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>OLTP3  equipo 2</origin>
-        <comments>idowner</comments>
+        <origin>Grupo2 sprint 2 2</origin>
+        <comments>idsprint</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -2445,18 +2251,18 @@ FROM "OLTP".proyectos
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>idequipo</name>
+        <name>idprueba</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>OLTP3  equipo 2</origin>
-        <comments>idequipo</comments>
+        <origin>Grupo2 sprint 2 2</origin>
+        <comments>idprueba</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -2468,7 +2274,30 @@ FROM "OLTP".proyectos
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>idmiembroequipo</name>
+        <length>9</length>
+        <precision>0</precision>
+        <origin>Grupo2 sprint 2 2</origin>
+        <comments>idmiembroequipo</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -2483,12 +2312,12 @@ FROM "OLTP".proyectos
     </remotesteps>
     <GUI>
       <xloc>64</xloc>
-      <yloc>1008</yloc>
+      <yloc>576</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>OLTP3 miembros</name>
+    <name>Grupo3 problemas</name>
     <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
@@ -2500,7 +2329,7 @@ FROM "OLTP".proyectos
     </partitioning>
     <connection>OLTPGrupo3</connection>
     <sql>SELECT *
-FROM "OLTP".miembrosequipos
+FROM "OLTP".problemas
 </sql>
     <limit>0</limit>
     <lookup/>
@@ -2512,11 +2341,11 @@ FROM "OLTP".miembrosequipos
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>idmiembro</name>
+        <name>idproblema</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>OLTP3  proyecto 2</origin>
-        <comments>idmiembro</comments>
+        <origin>Grupo3 historias 2</origin>
+        <comments>idproblema</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -2528,18 +2357,18 @@ FROM "OLTP".miembrosequipos
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>primernombre</name>
+        <name>nombre</name>
         <length>2147483647</length>
         <precision>-1</precision>
-        <origin>OLTP3  proyecto 2</origin>
-        <comments>primernombre</comments>
+        <origin>Grupo3 historias 2</origin>
+        <comments>nombre</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -2551,18 +2380,18 @@ FROM "OLTP".miembrosequipos
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
         <type>String</type>
         <storagetype>normal</storagetype>
-        <name>segundonombre</name>
-        <length>2147483647</length>
+        <name>descripcion</name>
+        <length>200</length>
         <precision>-1</precision>
-        <origin>OLTP3  proyecto 2</origin>
-        <comments>segundonombre</comments>
+        <origin>Grupo3 historias 2</origin>
+        <comments>descripcion</comments>
         <conversion_Mask/>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -2574,110 +2403,18 @@ FROM "OLTP".miembrosequipos
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>primerapellido</name>
-        <length>2147483647</length>
-        <precision>-1</precision>
-        <origin>OLTP3  proyecto 2</origin>
-        <comments>primerapellido</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>segundoapellido</name>
-        <length>2147483647</length>
-        <precision>-1</precision>
-        <origin>OLTP3  proyecto 2</origin>
-        <comments>segundoapellido</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>cargo</name>
-        <length>2147483647</length>
-        <precision>-1</precision>
-        <origin>OLTP3  proyecto 2</origin>
-        <comments>cargo</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
-        <date_format_timezone>America/Bogota</date_format_timezone>
-        <lenient_string_to_number>N</lenient_string_to_number>
-      </value-meta>
-      <value-meta>
-        <type>String</type>
-        <storagetype>normal</storagetype>
-        <name>email</name>
-        <length>2147483647</length>
-        <precision>-1</precision>
-        <origin>OLTP3  proyecto 2</origin>
-        <comments>email</comments>
-        <conversion_Mask/>
-        <decimal_symbol>,</decimal_symbol>
-        <grouping_symbol>.</grouping_symbol>
-        <currency_symbol/>
-        <trim_type>none</trim_type>
-        <case_insensitive>N</case_insensitive>
-        <collator_disabled>Y</collator_disabled>
-        <collator_strength>0</collator_strength>
-        <sort_descending>N</sort_descending>
-        <output_padding>N</output_padding>
-        <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
       <value-meta>
         <type>Integer</type>
         <storagetype>normal</storagetype>
-        <name>idequipo</name>
+        <name>idhistoria</name>
         <length>9</length>
         <precision>0</precision>
-        <origin>OLTP3  proyecto 2</origin>
-        <comments>idequipo</comments>
+        <origin>Grupo3 historias 2</origin>
+        <comments>idhistoria</comments>
         <conversion_Mask>####0;-####0</conversion_Mask>
         <decimal_symbol>,</decimal_symbol>
         <grouping_symbol>.</grouping_symbol>
@@ -2689,7 +2426,7 @@ FROM "OLTP".miembrosequipos
         <sort_descending>N</sort_descending>
         <output_padding>N</output_padding>
         <date_format_lenient>N</date_format_lenient>
-        <date_format_locale>es_CO</date_format_locale>
+        <date_format_locale>es_AR</date_format_locale>
         <date_format_timezone>America/Bogota</date_format_timezone>
         <lenient_string_to_number>N</lenient_string_to_number>
       </value-meta>
@@ -2703,14 +2440,14 @@ FROM "OLTP".miembrosequipos
       </output>
     </remotesteps>
     <GUI>
-      <xloc>48</xloc>
-      <yloc>1184</yloc>
+      <xloc>64</xloc>
+      <yloc>672</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Ordenar filas</name>
-    <type>SortRows</type>
+    <name>Grupo3 sprint</name>
+    <type>TableInput</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -2719,21 +2456,146 @@ FROM "OLTP".miembrosequipos
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
+    <connection>OLTPGrupo3</connection>
+    <sql>SELECT *
+FROM "OLTP".sprints
+</sql>
+    <limit>0</limit>
+    <lookup/>
+    <execute_each_row>N</execute_each_row>
+    <variables_active>N</variables_active>
+    <lazy_conversion_active>N</lazy_conversion_active>
+    <cached_row_meta_active>N</cached_row_meta_active>
+    <row-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>idsprint</name>
+        <length>9</length>
+        <precision>0</precision>
+        <origin>Grupo2 sprint 2</origin>
+        <comments>idsprint</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>es_AR</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>nombre</name>
+        <length>2147483647</length>
+        <precision>-1</precision>
+        <origin>Grupo2 sprint 2</origin>
+        <comments>nombre</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>es_AR</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>String</type>
+        <storagetype>normal</storagetype>
+        <name>descripcion</name>
+        <length>200</length>
+        <precision>-1</precision>
+        <origin>Grupo2 sprint 2</origin>
+        <comments>descripcion</comments>
+        <conversion_Mask/>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>es_AR</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+      <value-meta>
+        <type>Integer</type>
+        <storagetype>normal</storagetype>
+        <name>idproyecto</name>
+        <length>9</length>
+        <precision>0</precision>
+        <origin>Grupo2 sprint 2</origin>
+        <comments>idproyecto</comments>
+        <conversion_Mask>####0;-####0</conversion_Mask>
+        <decimal_symbol>,</decimal_symbol>
+        <grouping_symbol>.</grouping_symbol>
+        <currency_symbol/>
+        <trim_type>none</trim_type>
+        <case_insensitive>N</case_insensitive>
+        <collator_disabled>Y</collator_disabled>
+        <collator_strength>0</collator_strength>
+        <sort_descending>N</sort_descending>
+        <output_padding>N</output_padding>
+        <date_format_lenient>N</date_format_lenient>
+        <date_format_locale>es_AR</date_format_locale>
+        <date_format_timezone>America/Bogota</date_format_timezone>
+        <lenient_string_to_number>N</lenient_string_to_number>
+      </value-meta>
+    </row-meta>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>64</xloc>
+      <yloc>496</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Mapeo de valores</name>
+    <type>ValueMapper</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <field_to_use>estado_tarea</field_to_use>
+    <target_field>estado_tareaa</target_field>
+    <non_match_default/>
     <fields>
       <field>
-        <name>idproyecto</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
+        <source_value>Y</source_value>
+        <target_value>completado</target_value>
+      </field>
+      <field>
+        <source_value>N</source_value>
+        <target_value>pendiente</target_value>
       </field>
     </fields>
     <attributes/>
@@ -2746,13 +2608,13 @@ FROM "OLTP".miembrosequipos
     </remotesteps>
     <GUI>
       <xloc>320</xloc>
-      <yloc>544</yloc>
+      <yloc>416</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Ordenar filas 2</name>
-    <type>SortRows</type>
+    <name>Mapeo de valores 2</name>
+    <type>ValueMapper</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -2761,21 +2623,17 @@ FROM "OLTP".miembrosequipos
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
+    <field_to_use>estado_sprint</field_to_use>
+    <target_field>estado_sprintt</target_field>
+    <non_match_default/>
     <fields>
       <field>
-        <name>idequipo</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
+        <source_value>Y</source_value>
+        <target_value>completado</target_value>
+      </field>
+      <field>
+        <source_value>N</source_value>
+        <target_value>pendiente</target_value>
       </field>
     </fields>
     <attributes/>
@@ -2787,8 +2645,42 @@ FROM "OLTP".miembrosequipos
       </output>
     </remotesteps>
     <GUI>
-      <xloc>432</xloc>
-      <yloc>448</yloc>
+      <xloc>416</xloc>
+      <yloc>416</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Merge join</name>
+    <type>MergeJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <join_type>INNER</join_type>
+    <step1>Sort rows</step1>
+    <step2>Sort rows 2</step2>
+    <keys_1>
+      <key>idsprint</key>
+    </keys_1>
+    <keys_2>
+      <key>idsprint</key>
+    </keys_2>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>320</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2805,25 +2697,105 @@ FROM "OLTP".miembrosequipos
     </partitioning>
     <fields>
       <field>
-        <name>idproyecto</name>
-        <rename>proyecto</rename>
+        <name>id</name>
+        <rename>sprint_id</rename>
       </field>
       <field>
-        <name>idtrabajador</name>
-        <rename>trabajador</rename>
+        <name>id_1</name>
+        <rename>tarea_id</rename>
       </field>
       <field>
-        <name>fechacontratacion</name>
-        <rename>fecha</rename>
+        <name>nombre</name>
+        <rename>descripcion_tarea</rename>
+      </field>
+      <field>
+        <name>cumple_caso_de_prueba</name>
+        <rename>estado_tarea</rename>
+      </field>
+      <field>
+        <name>dificultad</name>
+        <rename>dificultad_tarea</rename>
+      </field>
+      <field>
+        <name>numero_sprint</name>
+        <rename>descripcion_sprint</rename>
+      </field>
+      <field>
+        <name>estado</name>
+        <rename>estado_sprint</rename>
+      </field>
+      <select_unspecified>N</select_unspecified>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>320</xloc>
+      <yloc>336</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Selecciona/Renombra valores 2</name>
+    <type>SelectValues</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>sprint_id</name>
+        <rename>sprint_id2</rename>
+      </field>
+      <field>
+        <name>tarea_id</name>
+        <rename>tarea_id2</rename>
+      </field>
+      <field>
+        <name>nombre_tarea</name>
+        <rename/>
+      </field>
+      <field>
+        <name>descripcion_tarea</name>
+        <rename/>
+      </field>
+      <field>
+        <name>problemas_tarea</name>
+        <rename/>
+      </field>
+      <field>
+        <name>estado_tareaa</name>
+        <rename>estado_tarea</rename>
+      </field>
+      <field>
+        <name>dificultad_tareaa</name>
+        <rename/>
+      </field>
+      <field>
+        <name>descripcion_sprint</name>
+        <rename/>
+      </field>
+      <field>
+        <name>estado_sprintt</name>
+        <rename>estado_sprint</rename>
       </field>
       <select_unspecified>N</select_unspecified>
       <meta>
-        <name>fecha</name>
-        <rename>fecha</rename>
+        <name>dificultad_tareaa</name>
+        <rename>dificultad_tarea</rename>
         <type>String</type>
         <length>-2</length>
         <precision>-2</precision>
-        <conversion_mask>yyyy-MM-dd</conversion_mask>
+        <conversion_mask/>
         <date_format_lenient>false</date_format_lenient>
         <date_format_locale/>
         <date_format_timezone/>
@@ -2844,14 +2816,14 @@ FROM "OLTP".miembrosequipos
       </output>
     </remotesteps>
     <GUI>
-      <xloc>592</xloc>
-      <yloc>336</yloc>
+      <xloc>672</xloc>
+      <yloc>416</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Unión por clave</name>
-    <type>MergeJoin</type>
+    <name>Selecciona/Renombra valores 3</name>
+    <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -2860,15 +2832,62 @@ FROM "OLTP".miembrosequipos
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <join_type>RIGHT OUTER</join_type>
-    <step1>OLTP1 EquiposProyecto</step1>
-    <step2>OLTP1 Equipo</step2>
-    <keys_1>
-      <key>idequipo</key>
-    </keys_1>
-    <keys_2>
-      <key>idequipo</key>
-    </keys_2>
+    <fields>
+      <field>
+        <name>idsprint</name>
+        <rename>sprint_id2</rename>
+      </field>
+      <field>
+        <name>idhistoria</name>
+        <rename>tarea_id2</rename>
+      </field>
+      <field>
+        <name>nombre_1</name>
+        <rename>nombre_tarea</rename>
+      </field>
+      <field>
+        <name>descripcion_1</name>
+        <rename>descripcion_tarea</rename>
+      </field>
+      <field>
+        <name>descripcion_2</name>
+        <rename>problemas_tarea</rename>
+      </field>
+      <field>
+        <name>estado_tarea</name>
+        <rename/>
+      </field>
+      <field>
+        <name>dificultad_tarea</name>
+        <rename/>
+      </field>
+      <field>
+        <name>descripcion</name>
+        <rename>descripcion_sprint</rename>
+      </field>
+      <field>
+        <name>estado_sprint</name>
+        <rename/>
+      </field>
+      <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>dificultad_tarea</name>
+        <rename>dificultad_tarea</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+    </fields>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -2878,14 +2897,14 @@ FROM "OLTP".miembrosequipos
       </output>
     </remotesteps>
     <GUI>
-      <xloc>192</xloc>
-      <yloc>544</yloc>
+      <xloc>608</xloc>
+      <yloc>640</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Unión por clave 2</name>
-    <type>MergeJoin</type>
+    <name>Select values</name>
+    <type>SelectValues</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -2894,15 +2913,62 @@ FROM "OLTP".miembrosequipos
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <join_type>LEFT OUTER</join_type>
-    <step1>OLTP1 proyecto</step1>
-    <step2>Ordenar filas</step2>
-    <keys_1>
-      <key>idproyecto</key>
-    </keys_1>
-    <keys_2>
-      <key>idproyecto</key>
-    </keys_2>
+    <fields>
+      <field>
+        <name>idsprint</name>
+        <rename>sprint_id2</rename>
+      </field>
+      <field>
+        <name>idtareasprint</name>
+        <rename>tarea_id2</rename>
+      </field>
+      <field>
+        <name>nombrets</name>
+        <rename>nombre_tarea</rename>
+      </field>
+      <field>
+        <name>descripcionts</name>
+        <rename>descripcion_tarea</rename>
+      </field>
+      <field>
+        <name>problemasencontrados</name>
+        <rename>problemas_tarea</rename>
+      </field>
+      <field>
+        <name>estadots</name>
+        <rename>estado_tarea</rename>
+      </field>
+      <field>
+        <name>niveldificultadts</name>
+        <rename/>
+      </field>
+      <field>
+        <name>descripcion</name>
+        <rename>descripcion_sprint</rename>
+      </field>
+      <field>
+        <name>estado</name>
+        <rename>estado_sprint</rename>
+      </field>
+      <select_unspecified>N</select_unspecified>
+      <meta>
+        <name>niveldificultadts</name>
+        <rename>dificultad_tarea</rename>
+        <type>String</type>
+        <length>-2</length>
+        <precision>-2</precision>
+        <conversion_mask/>
+        <date_format_lenient>false</date_format_lenient>
+        <date_format_locale/>
+        <date_format_timezone/>
+        <lenient_string_to_number>false</lenient_string_to_number>
+        <encoding/>
+        <decimal_symbol/>
+        <grouping_symbol/>
+        <currency_symbol/>
+        <storage_type/>
+      </meta>
+    </fields>
     <attributes/>
     <cluster_schema/>
     <remotesteps>
@@ -2912,42 +2978,8 @@ FROM "OLTP".miembrosequipos
       </output>
     </remotesteps>
     <GUI>
-      <xloc>320</xloc>
-      <yloc>448</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Unión por clave 3</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <join_type>RIGHT OUTER</join_type>
-    <step1>OLTP1 Trabajador</step1>
-    <step2>Ordenar filas 2</step2>
-    <keys_1>
-      <key>idequipo</key>
-    </keys_1>
-    <keys_2>
-      <key>idequipo</key>
-    </keys_2>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>432</xloc>
-      <yloc>336</yloc>
+      <xloc>448</xloc>
+      <yloc>112</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -2971,7 +3003,7 @@ FROM "OLTP".miembrosequipos
     <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <name>id_1</name>
+        <name>idsprint</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -2988,42 +3020,8 @@ FROM "OLTP".miembrosequipos
       </output>
     </remotesteps>
     <GUI>
-      <xloc>224</xloc>
-      <yloc>720</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Merge join 2</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <join_type>LEFT OUTER</join_type>
-    <step1>Sort rows</step1>
-    <step2>OLTP2  historia</step2>
-    <keys_1>
-      <key>id_1</key>
-    </keys_1>
-    <keys_2>
-      <key>id_sprint</key>
-    </keys_2>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>256</xloc>
-      <yloc>816</yloc>
+      <xloc>192</xloc>
+      <yloc>48</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
@@ -3047,7 +3045,7 @@ FROM "OLTP".miembrosequipos
     <unique_rows>N</unique_rows>
     <fields>
       <field>
-        <name>responsable_1</name>
+        <name>idsprint</name>
         <ascending>Y</ascending>
         <case_sensitive>N</case_sensitive>
         <collator_enabled>N</collator_enabled>
@@ -3064,48 +3062,14 @@ FROM "OLTP".miembrosequipos
       </output>
     </remotesteps>
     <GUI>
-      <xloc>352</xloc>
-      <yloc>768</yloc>
+      <xloc>192</xloc>
+      <yloc>176</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Merge join 3</name>
-    <type>MergeJoin</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <join_type>LEFT OUTER</join_type>
-    <step1>Sort rows 2</step1>
-    <step2>OLTP2  developmentteam</step2>
-    <keys_1>
-      <key>responsable_1</key>
-    </keys_1>
-    <keys_2>
-      <key>id</key>
-    </keys_2>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>416</xloc>
-      <yloc>848</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Select values</name>
-    <type>SelectValues</type>
+    <name>Strings cut</name>
+    <type>StringCut</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -3116,35 +3080,11 @@ FROM "OLTP".miembrosequipos
     </partitioning>
     <fields>
       <field>
-        <name>id</name>
-        <rename>proyecto_id</rename>
+        <in_stream_name>nombre_tarea</in_stream_name>
+        <out_stream_name/>
+        <cut_from>0</cut_from>
+        <cut_to>20</cut_to>
       </field>
-      <field>
-        <name>responsable_1</name>
-        <rename>trabajador_id</rename>
-      </field>
-      <field>
-        <name>fecha_final</name>
-        <rename/>
-      </field>
-      <select_unspecified>N</select_unspecified>
-      <meta>
-        <name>fecha_final</name>
-        <rename>fecha_final</rename>
-        <type>String</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask>yyyy-MM-dd</conversion_mask>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -3155,13 +3095,38 @@ FROM "OLTP".miembrosequipos
       </output>
     </remotesteps>
     <GUI>
-      <xloc>528</xloc>
-      <yloc>800</yloc>
+      <xloc>736</xloc>
+      <yloc>640</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Merge join 4</name>
+    <name>Transformación simulada (no hace nada)</name>
+    <type>Dummy</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>1152</xloc>
+      <yloc>384</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Unión por clave</name>
     <type>MergeJoin</type>
     <description/>
     <distribute>Y</distribute>
@@ -3171,14 +3136,14 @@ FROM "OLTP".miembrosequipos
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <join_type>RIGHT OUTER</join_type>
-    <step1>OLTP3  proyecto</step1>
-    <step2>OLTP3  equipo</step2>
+    <join_type>LEFT OUTER</join_type>
+    <step1>Grupo2 sprint</step1>
+    <step2>Grupo2 historias</step2>
     <keys_1>
-      <key>idequipo</key>
+      <key>id</key>
     </keys_1>
     <keys_2>
-      <key>idequipo</key>
+      <key>id_sprint</key>
     </keys_2>
     <attributes/>
     <cluster_schema/>
@@ -3190,54 +3155,12 @@ FROM "OLTP".miembrosequipos
     </remotesteps>
     <GUI>
       <xloc>192</xloc>
-      <yloc>1056</yloc>
+      <yloc>336</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Sort rows 3</name>
-    <type>SortRows</type>
-    <description/>
-    <distribute>Y</distribute>
-    <custom_distribution/>
-    <copies>1</copies>
-    <partitioning>
-      <method>none</method>
-      <schema_name/>
-    </partitioning>
-    <directory>%%java.io.tmpdir%%</directory>
-    <prefix>out</prefix>
-    <sort_size>1000000</sort_size>
-    <free_memory/>
-    <compress>N</compress>
-    <compress_variable/>
-    <unique_rows>N</unique_rows>
-    <fields>
-      <field>
-        <name>idequipo</name>
-        <ascending>Y</ascending>
-        <case_sensitive>N</case_sensitive>
-        <collator_enabled>N</collator_enabled>
-        <collator_strength>0</collator_strength>
-        <presorted>N</presorted>
-      </field>
-    </fields>
-    <attributes/>
-    <cluster_schema/>
-    <remotesteps>
-      <input>
-      </input>
-      <output>
-      </output>
-    </remotesteps>
-    <GUI>
-      <xloc>304</xloc>
-      <yloc>1056</yloc>
-      <draw>Y</draw>
-    </GUI>
-  </step>
-  <step>
-    <name>Merge join 5</name>
+    <name>Unión por clave 2</name>
     <type>MergeJoin</type>
     <description/>
     <distribute>Y</distribute>
@@ -3247,14 +3170,14 @@ FROM "OLTP".miembrosequipos
       <method>none</method>
       <schema_name/>
     </partitioning>
-    <join_type>LEFT OUTER</join_type>
-    <step1>Sort rows 3</step1>
-    <step2>OLTP3 miembros</step2>
+    <join_type>INNER</join_type>
+    <step1>Grupo3 sprint</step1>
+    <step2>Grupo3 historias</step2>
     <keys_1>
-      <key>idequipo</key>
+      <key>idsprint</key>
     </keys_1>
     <keys_2>
-      <key>idequipo</key>
+      <key>idsprint</key>
     </keys_2>
     <attributes/>
     <cluster_schema/>
@@ -3265,14 +3188,48 @@ FROM "OLTP".miembrosequipos
       </output>
     </remotesteps>
     <GUI>
-      <xloc>384</xloc>
-      <yloc>1120</yloc>
+      <xloc>192</xloc>
+      <yloc>576</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
   <step>
-    <name>Select values 2</name>
-    <type>SelectValues</type>
+    <name>Unión por clave 3</name>
+    <type>MergeJoin</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <join_type>INNER</join_type>
+    <step1>Unión por clave 2</step1>
+    <step2>Grupo3 problemas</step2>
+    <keys_1>
+      <key>idhistoria</key>
+    </keys_1>
+    <keys_2>
+      <key>idhistoria</key>
+    </keys_2>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>336</xloc>
+      <yloc>640</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Añadir constantes 3</name>
+    <type>Constant</type>
     <description/>
     <distribute>Y</distribute>
     <custom_distribution/>
@@ -3283,35 +3240,17 @@ FROM "OLTP".miembrosequipos
     </partitioning>
     <fields>
       <field>
-        <name>idproyecto</name>
-        <rename>proyecto_id</rename>
+        <name>suma</name>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>1000</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
       </field>
-      <field>
-        <name>idmiembro</name>
-        <rename>trabajador_id</rename>
-      </field>
-      <field>
-        <name>fechaentrega</name>
-        <rename>fecha_final</rename>
-      </field>
-      <select_unspecified>N</select_unspecified>
-      <meta>
-        <name>fecha_final</name>
-        <rename>fecha_final</rename>
-        <type>String</type>
-        <length>-2</length>
-        <precision>-2</precision>
-        <conversion_mask>yyyy-MM-dd</conversion_mask>
-        <date_format_lenient>false</date_format_lenient>
-        <date_format_locale/>
-        <date_format_timezone/>
-        <lenient_string_to_number>false</lenient_string_to_number>
-        <encoding/>
-        <decimal_symbol/>
-        <grouping_symbol/>
-        <currency_symbol/>
-        <storage_type/>
-      </meta>
     </fields>
     <attributes/>
     <cluster_schema/>
@@ -3322,8 +3261,254 @@ FROM "OLTP".miembrosequipos
       </output>
     </remotesteps>
     <GUI>
-      <xloc>496</xloc>
-      <yloc>1088</yloc>
+      <xloc>576</xloc>
+      <yloc>112</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Calculadora</name>
+    <type>Calculator</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <failIfNoFile>Y</failIfNoFile>
+    <calculation>
+      <field_name>sprint_id</field_name>
+      <calc_type>ADD</calc_type>
+      <field_a>suma</field_a>
+      <field_b>sprint_id2</field_b>
+      <field_c/>
+      <value_type>Integer</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>tarea_id</field_name>
+      <calc_type>ADD</calc_type>
+      <field_a>suma</field_a>
+      <field_b>tarea_id2</field_b>
+      <field_c/>
+      <value_type>Integer</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>704</xloc>
+      <yloc>112</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Añadir constantes 3 2</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>suma</name>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>2000</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>832</xloc>
+      <yloc>416</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Calculadora 2</name>
+    <type>Calculator</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <failIfNoFile>Y</failIfNoFile>
+    <calculation>
+      <field_name>sprint_id</field_name>
+      <calc_type>ADD</calc_type>
+      <field_a>suma</field_a>
+      <field_b>sprint_id2</field_b>
+      <field_c/>
+      <value_type>Integer</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>tarea_id</field_name>
+      <calc_type>ADD</calc_type>
+      <field_a>suma</field_a>
+      <field_b>tarea_id2</field_b>
+      <field_c/>
+      <value_type>Integer</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>960</xloc>
+      <yloc>416</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Añadir constantes 3 3</name>
+    <type>Constant</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <fields>
+      <field>
+        <name>suma</name>
+        <type>Integer</type>
+        <format/>
+        <currency/>
+        <decimal/>
+        <group/>
+        <nullif>3000</nullif>
+        <length>-1</length>
+        <precision>-1</precision>
+        <set_empty_string>N</set_empty_string>
+      </field>
+    </fields>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>848</xloc>
+      <yloc>640</yloc>
+      <draw>Y</draw>
+    </GUI>
+  </step>
+  <step>
+    <name>Calculadora 3</name>
+    <type>Calculator</type>
+    <description/>
+    <distribute>Y</distribute>
+    <custom_distribution/>
+    <copies>1</copies>
+    <partitioning>
+      <method>none</method>
+      <schema_name/>
+    </partitioning>
+    <failIfNoFile>Y</failIfNoFile>
+    <calculation>
+      <field_name>sprint_id</field_name>
+      <calc_type>ADD</calc_type>
+      <field_a>suma</field_a>
+      <field_b>sprint_id2</field_b>
+      <field_c/>
+      <value_type>Integer</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <calculation>
+      <field_name>tarea_id</field_name>
+      <calc_type>ADD</calc_type>
+      <field_a>suma</field_a>
+      <field_b>tarea_id2</field_b>
+      <field_c/>
+      <value_type>Integer</value_type>
+      <value_length>-1</value_length>
+      <value_precision>-1</value_precision>
+      <remove>N</remove>
+      <conversion_mask/>
+      <decimal_symbol/>
+      <grouping_symbol/>
+      <currency_symbol/>
+    </calculation>
+    <attributes/>
+    <cluster_schema/>
+    <remotesteps>
+      <input>
+      </input>
+      <output>
+      </output>
+    </remotesteps>
+    <GUI>
+      <xloc>976</xloc>
+      <yloc>640</yloc>
       <draw>Y</draw>
     </GUI>
   </step>
